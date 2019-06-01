@@ -1,8 +1,13 @@
-const a = require("./classes/clase1.js");
+const a = require("./mocks/classes/clase3.ts");
 const path = require("path");
 
-function importClassesFromDirectories(directories, formats = [".js", ".ts"]) {
-  function loadFileClasses(exported, allLoaded) {
+const TEST_DIR = ["./mocks/classes/**.*"];
+
+function importClassesFromDirectories(
+  directories: string[],
+  formats = [".js", ".ts"]
+) {
+  function loadFileClasses(exported: any, allLoaded: any[]) {
     if (typeof exported === "function") {
       allLoaded.push(exported);
     } else if (Array.isArray(exported)) {
@@ -20,7 +25,7 @@ function importClassesFromDirectories(directories, formats = [".js", ".ts"]) {
   }, []);
 
   const dirs = allFiles
-    .filter(file => {
+    .filter((file: string) => {
       const dtsExtension = file.substring(file.length - 5, file.length);
       return (
         formats.indexOf(path.extname(file)) !== -1 && dtsExtension !== ".d.ts"
@@ -33,5 +38,5 @@ function importClassesFromDirectories(directories, formats = [".js", ".ts"]) {
   return loadFileClasses(dirs, []);
 }
 
-const data = importClassesFromDirectories(["./classes/**.*"]);
+const data = importClassesFromDirectories(TEST_DIR);
 console.log("-->", data);

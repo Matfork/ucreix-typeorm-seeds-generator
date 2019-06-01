@@ -1,7 +1,7 @@
 const c2 = [55,50];
 
 const c1 = {
-  m1: par => {
+  m1: (par) => {
     function print(par) {
       console.log(par);
     }
