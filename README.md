@@ -1,2 +1,3 @@
-# seeds-generator
-Seeds generator for typeorm
+# @ucreix/typeorm-seeds
+
+Ucreix / Typeorm Seeds

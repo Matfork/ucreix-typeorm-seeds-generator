@@ -1,18 +1,38 @@
 {
-  "name": "@utils/typeorm-seeds",
-  "public": true,
+  "name": "@ucreix/typeorm-seeds",
+  "private": true,
+  "author": {
+    "name": "Daniel Hernandez",
+    "email": "dahv24@gmail.com"
+  },
   "version": "0.1.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "typings": "dist/index.d.ts",
   "description": "Seeds for typeorm",
   "dependencies": {
+    "app-root-path": "^2.2.1",
+    "chalk": "^2.4.2",
+    "dotenv": "^8.0.0",
     "glob": "^7.1.4",
-    "typescript": "^3.5.1",
+    "mkdirp": "^0.5.1",
+    "nodemon": "^1.19.1",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^2.6.3",
     "ts-node": "^8.2.0",
-    "nodemon": "^1.19.1"
+    "typescript": "^3.5.1",
+    "yargonaut": "^1.1.4",
+    "yargs": "^13.2.4"
   },
   "scripts": {
-    "start": "nodemon --exec ts-node index.ts"
+    "start": "nodemon --exec ts-node index.ts",
+    "build": "rimraf ./dist && tsc"
   },
   "devDependencies": {
-    "@types/node": "^12.0.4"
+    "@types/node": "^12.0.4",
+    "@types/yargs": "^13.0.0"
+  },
+  "bin": {
+    "utseeds": "./dist/cli.js"
   }
 }
