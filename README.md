@@ -90,4 +90,11 @@ node ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:revert
 License
 ----
 
+### CLI Options
+| Command | Option | Default | Description
+| ------ | ------ | ------ | ------ |
+| * | --connection or -c | default | Name of the connection on which run a query.
+| * | --config or -f | default | Name of the file with connection configuration.
+| seed:create | --name or -n | [Required] | Name of seed to be created.
+
 MIT
