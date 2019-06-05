@@ -6,7 +6,7 @@ This little plugin lets typeorm generates seeds files to add custom data to data
 Right now it only supports: **MySql, Postgres and Mongodb**.
 
 ### Install
-    npm install https://github.com/Matfork/seeds-generator.git
+    npm install https://github.com/Matfork/ucreix-typeorm-seeds-generator.git
 
 ### How it works
 This lib adds some useful commands which can be used in your node.js CLI (these commands similiar to typeorm migrations) will help you create, run, show and revert seeds for an specific database.

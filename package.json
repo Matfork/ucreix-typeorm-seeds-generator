@@ -1,5 +1,5 @@
 {
-  "name": "@ucreix/typeorm-seeds",
+  "name": "@ucreix/typeorm-seeds-generator",
   "author": {
     "name": "Daniel Hernandez",
     "email": "dahv24@gmail.com"
@@ -10,11 +10,11 @@
     "utseeds": "./dist/cli.js"
   },
   "license": "MIT",
-  "homepage": "https://github.com/typeorm/typeorm#readme",
+  "homepage": "https://github.com/Matfork/ucreix-typeorm-seeds-generator#readme",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Matfork/seeds-generator.git"
+    "url": "git+https://github.com/Matfork/ucreix-typeorm-seeds-generator.git"
   },
   "typings": "dist/index.d.ts",
   "description": "Seeds generator plugin which integrates with typeorm",
