@@ -52,40 +52,40 @@ Commands
 ##### Create Seed
 - Javascript:
 ```sh
-node ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:create -n SeedExmapleFile.js
+node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:create -n SeedExmapleFile.js
 ```
 - Typescript:
 ```sh
-./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:create -n SeedExmapleFile.ts
+./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:create -n SeedExmapleFile.ts
 ```
 
 #### Show Seeds
 - Javascript:
 ```sh
-node ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:show
+node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:show
 ```
 - Typescript:
 ```sh
-./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:show
+./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:show
 ```
 
 #### Run Seeds
 - Javascript:
 ```sh
-node ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:run
+node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:run
 ```
 - Typescript:
 ```sh
-./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:run
+./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:run
 ```
 #### Revert Seed
 - Javascript:
 ```sh
-node ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:revert
+node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:revert
 ```
 - Typescript:
 ```sh
-./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds/dist/cli.js seed:revert
+./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:revert
 ```
 
 CLI Options
