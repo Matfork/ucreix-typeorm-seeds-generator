@@ -44,15 +44,14 @@ var DatabaseStorage = (function () {
     }
     DatabaseStorage.initialize = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var opts, separator, dbFile, adapter;
+            var opts, separator, adapter;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, typeorm_1.getConnectionOptions()];
                     case 1:
                         opts = _a.sent();
                         separator = '/';
-                        dbFile = 'seedsDb.json';
-                        adapter = new FileSync("" + baseDir + separator + opts.cli.seedsDir + separator + dbFile);
+                        adapter = new FileSync("" + baseDir + separator + opts.cli.seeds.db);
                         DatabaseStorage.db = low(adapter);
                         DatabaseStorage.db
                             .defaults({

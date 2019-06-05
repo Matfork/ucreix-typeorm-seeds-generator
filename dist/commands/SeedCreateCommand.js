@@ -90,7 +90,7 @@ var SeedCreateCommand = (function () {
                     case 2:
                         connectionOptions = _a.sent();
                         directory = connectionOptions.cli
-                            ? connectionOptions.cli.seedsDir
+                            ? connectionOptions.cli.seeds.dir
                             : undefined;
                         return [4, typeorm_1.createConnection(connectionOptions)];
                     case 3:
@@ -124,10 +124,10 @@ var SeedCreateCommand = (function () {
         });
     };
     SeedCreateCommand.getTemplate = function (name, timestamp) {
-        return "import { QueryRunner} from \"typeorm\";\nimport { SeedInterface } from \"@ucreix/typeorm-seeds\";\n\nexport class " + StringUtils_1.camelCase(name, true) + timestamp + " implements SeedInterface {\n    public async up(queryRunner: QueryRunner): Promise<any> {\n\n    }\n    public async down(queryRunner: QueryRunner): Promise<any> {\n\n    }\n}\n";
+        return "import { QueryRunner} from \"typeorm\";\nimport { SeedInterface } from \"@ucreix/typeorm-seeds-generator\";\n\nexport class " + StringUtils_1.camelCase(name, true) + timestamp + " implements SeedInterface {\n    public async up(queryRunner: QueryRunner): Promise<any> {\n\n    }\n    public async down(queryRunner: QueryRunner): Promise<any> {\n\n    }\n}\n";
     };
     SeedCreateCommand.getMongoTemplate = function (name, timestamp) {
-        return "import { SeedInterface } from \"@ucreix/typeorm-seeds\";\n\nexport class " + StringUtils_1.camelCase(name, true) + timestamp + " implements SeedInterface {\n    public async up(): Promise<any> {\n\n    }\n    public async down(): Promise<any> {\n\n    }\n}\n";
+        return "import { SeedInterface } from \"@ucreix/typeorm-seeds-generator\";\n\nexport class " + StringUtils_1.camelCase(name, true) + timestamp + " implements SeedInterface {\n    public async up(): Promise<any> {\n\n    }\n    public async down(): Promise<any> {\n\n    }\n}\n";
     };
     return SeedCreateCommand;
 }());

@@ -55,7 +55,7 @@ export class SeedCreateCommand implements yargs.CommandModule {
             args.connection as any
           );
           directory = connectionOptions.cli
-            ? connectionOptions.cli.seedsDir
+            ? connectionOptions.cli.seeds.dir
             : undefined;
 
           const connection = await createConnection(connectionOptions);
@@ -90,7 +90,7 @@ export class SeedCreateCommand implements yargs.CommandModule {
    */
   protected static getTemplate(name: string, timestamp: number): string {
     return `import { QueryRunner} from "typeorm";
-import { SeedInterface } from "@ucreix/typeorm-seeds";
+import { SeedInterface } from "@ucreix/typeorm-seeds-generator";
 
 export class ${camelCase(name, true)}${timestamp} implements SeedInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
@@ -104,7 +104,7 @@ export class ${camelCase(name, true)}${timestamp} implements SeedInterface {
   }
 
   protected static getMongoTemplate(name: string, timestamp: number): string {
-    return `import { SeedInterface } from "@ucreix/typeorm-seeds";
+    return `import { SeedInterface } from "@ucreix/typeorm-seeds-generator";
 
 export class ${camelCase(name, true)}${timestamp} implements SeedInterface {
     public async up(): Promise<any> {

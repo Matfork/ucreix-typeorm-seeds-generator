@@ -9,6 +9,8 @@ This lib adds some useful commands which can be used in your node.js CLI (these 
 
 It uses lowdb which generates a little json database file in which we store all data related to seeds files, in this way it can keep track of remaining seeds files needed to be processed or the ones already processed.
 
+Also Typescript is required for Cli commands.
+
 Install
 ----
     npm install https://github.com/Matfork/ucreix-typeorm-seeds-generator.git    
@@ -50,40 +52,20 @@ When running or reverting commands a files named `seedsDb.json` will be generate
 Commands
 ----
 ##### Create Seed
-- Javascript:
 ```sh
-node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:create -n SeedExmapleFile.js
-```
-- Typescript:
-```sh
-./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:create -n SeedExmapleFile.ts
+./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:create -n SeedExmapleFile
 ```
 
 #### Show Seeds
-- Javascript:
-```sh
-node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:show
-```
-- Typescript:
 ```sh
 ./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:show
 ```
 
 #### Run Seeds
-- Javascript:
-```sh
-node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:run
-```
-- Typescript:
 ```sh
 ./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:run
 ```
 #### Revert Seed
-- Javascript:
-```sh
-node ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:revert
-```
-- Typescript:
 ```sh
 ./node_modules/ts-node/dist/bin.js ./node_modules/@ucreix/typeorm-seeds-generator/dist/cli.js seed:revert
 ```
