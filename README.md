@@ -22,11 +22,14 @@ In your `ormconfig.{json,ts,js}` add the following lines:
     module.exports  =  [
     {
         ...
-        seeds:  [<PATH_TO_SEEDS_FILES>],
+        seeds:  [PATH_TO_SEEDS_FILES],
         ...
         cli:  {
             ...
-            seedsDir:  <PATH_TO_STORAGE_FILE>,
+            seeds: {
+                dir: PATH_TO_SEEDS_DIR,
+                db: PATH_TO_STORAGE_FILE,
+            } 
             ...
         }
     },
@@ -41,7 +44,10 @@ Example:
         ...
         cli:  {
             ...
-            seedsDir: `config/db/seed`,
+            seeds: {
+                dir: `config/db/seed/`,
+                db: `config/db/seedDb.json`
+            }
             ...
         }
     },
