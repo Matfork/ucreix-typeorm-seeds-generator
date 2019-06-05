@@ -1,7 +1,9 @@
 import { ConnectionOptionsReader } from '../connection/ConnectionOptionsReader';
 import { CommandUtils } from './CommandUtils';
-import { camelCase } from '../util/StringUtils';
+
 import * as yargs from 'yargs';
+import { camelCase } from '../util/StringUtils';
+import { getConnection, createConnection } from 'typeorm';
 const chalk = require('chalk');
 
 /**
@@ -37,12 +39,9 @@ export class SeedCreateCommand implements yargs.CommandModule {
   async handler(args: yargs.Arguments) {
     try {
       const timestamp = new Date().getTime();
-      const fileContent = SeedCreateCommand.getTemplate(
-        args.name as any,
-        timestamp
-      );
       const filename = timestamp + '-' + args.name + '.ts';
       let directory = args.dir;
+      let isMongo = false;
 
       // if directory is not set then try to open tsconfig and find default path there
       if (!directory) {
@@ -52,20 +51,29 @@ export class SeedCreateCommand implements yargs.CommandModule {
             configName: args.config as any
           });
 
-          const connectionOptions = await connectionOptionsReader.get(
+          const connectionOptions: any = await connectionOptionsReader.get(
             args.connection as any
           );
           directory = connectionOptions.cli
             ? connectionOptions.cli.seedsDir
             : undefined;
-        } catch (err) {}
+
+          const connection = await createConnection(connectionOptions);
+          isMongo = (connection.driver as any).mongodb ? true : false;
+        } catch (err) {
+          console.log(err);
+        }
       }
-      console.log(directory);
+
+      const fileContent = !isMongo
+        ? SeedCreateCommand.getTemplate(args.name as any, timestamp)
+        : SeedCreateCommand.getMongoTemplate(args.name as any, timestamp);
 
       const path =
         process.cwd() + '/' + (directory ? directory + '/' : '') + filename;
       await CommandUtils.createFile(path, fileContent);
       console.log(`Seed ${chalk.blue(path)} has been generated successfully.`);
+      process.exit(0);
     } catch (err) {
       console.log(chalk.black.bgRed('Error during seed creation:'));
       console.error(err);
@@ -82,11 +90,28 @@ export class SeedCreateCommand implements yargs.CommandModule {
    */
   protected static getTemplate(name: string, timestamp: number): string {
     return `import { QueryRunner} from "typeorm";
-    import { SeedInterface } from "seeds-generator";
+import { SeedInterface } from "@ucreix/typeorm-seeds";
+
 export class ${camelCase(name, true)}${timestamp} implements SeedInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
+
     }
     public async down(queryRunner: QueryRunner): Promise<any> {
+
+    }
+}
+`;
+  }
+
+  protected static getMongoTemplate(name: string, timestamp: number): string {
+    return `import { SeedInterface } from "@ucreix/typeorm-seeds";
+
+export class ${camelCase(name, true)}${timestamp} implements SeedInterface {
+    public async up(): Promise<any> {
+
+    }
+    public async down(): Promise<any> {
+
     }
 }
 `;

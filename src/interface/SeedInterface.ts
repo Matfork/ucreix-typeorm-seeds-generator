@@ -3,11 +3,11 @@
  */
 export interface SeedInterface {
   /**
-   * Run the migrations.
+   * Run the seeds.
    */
   up(queryRunner: any): Promise<any>;
   /**
-   * Reverse the migrations.
+   * Reverse the seeds.
    */
   down(queryRunner: any): Promise<any>;
 }

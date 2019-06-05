@@ -2,12 +2,16 @@
 import 'reflect-metadata';
 import * as yargs from 'yargs';
 import { SeedCreateCommand } from './commands/SeedCreateCommand';
+import { SeedRunCommand } from './commands/SeedRunCommand';
+import { SeedRevertCommand } from './commands/SeedRevertCommand';
+import { SeedShowCommand } from './commands/SeedShowCommand';
 
 yargs
   .usage('Usage: $0 <command> [options]')
   .command(new SeedCreateCommand())
-//   .command(new SeedRunCommand())
-//   .command(new SeedRevertCommand())
+  .command(new SeedShowCommand())
+  .command(new SeedRunCommand())
+  .command(new SeedRevertCommand())
   .recommendCommands()
   .demandCommand(1)
   .strict()

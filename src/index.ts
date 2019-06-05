@@ -1,1 +1,1 @@
-export * from './cli';
+export { SeedInterface } from './interface/SeedInterface';

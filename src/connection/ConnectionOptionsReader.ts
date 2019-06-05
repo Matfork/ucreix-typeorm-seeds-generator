@@ -115,8 +115,6 @@ export class ConnectionOptionsReader {
       ? this.baseFilePath
       : this.baseFilePath + '.' + foundFileFormat;
 
-    console.log('-->', configFile);
-
     // try to find connection options from any of available sources of configuration
     if (foundFileFormat === 'js') {
       connectionOptions = require(configFile);
@@ -152,8 +150,6 @@ export class ConnectionOptionsReader {
         Object.assign(connectionOptions, { seeds: seeds });
       }
     });
-
-    console.log(connectionOptions);
 
     return connectionOptions;
   }
