@@ -3,4 +3,3 @@ ormconfig.*
 mocks
 config/
 .env
-dist

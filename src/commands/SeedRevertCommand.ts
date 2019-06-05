@@ -2,6 +2,7 @@ import { ConnectionOptionsReader } from '../connection/ConnectionOptionsReader';
 import * as yargs from 'yargs';
 import { Connection, createConnection } from 'typeorm';
 import { SeedExecutor } from '../seeds/SeedExecutor';
+import { DatabaseStorage } from '../util/DatabaseStorage';
 const chalk = require('chalk');
 
 /**
@@ -53,6 +54,7 @@ export class SeedRevertCommand implements yargs.CommandModule {
         transaction: args['t'] === 'false' ? false : true
       };
 
+      await DatabaseStorage.initialize();
       const seedExecutor = new SeedExecutor(
         connectionOptions,
         connection.createQueryRunner()

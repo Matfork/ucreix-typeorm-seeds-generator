@@ -3,6 +3,7 @@ import * as process from 'process';
 import * as yargs from 'yargs';
 import { createConnection, Connection } from 'typeorm';
 import { SeedExecutor } from '../seeds/SeedExecutor';
+import { DatabaseStorage } from '../util/DatabaseStorage';
 const chalk = require('chalk');
 
 /**
@@ -44,7 +45,8 @@ export class SeedShowCommand implements yargs.CommandModule {
         logging: ['query', 'error', 'schema']
       });
       connection = await createConnection(connectionOptions);
-
+      
+      await DatabaseStorage.initialize();
       const seedExecutor = new SeedExecutor(
         connectionOptions,
         connection.createQueryRunner()

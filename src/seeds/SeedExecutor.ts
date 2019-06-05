@@ -9,19 +9,7 @@ import {
   QueryRunner
 } from 'typeorm';
 import { OrmUtils } from '../util/OrmUtils';
-
-const baseDir = require('app-root-path').path;
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync(`${baseDir}/config/db/seedsDb.json`);
-const db = low(adapter);
-
-// Set some defaults (required if your JSON file is empty)
-db.defaults({
-  seeds: [],
-  mongoSeeds: [],
-  sequences: { seeds: 0, mongoSeeds: 0 }
-}).write();
+import { DatabaseStorage } from '../util/DatabaseStorage';
 
 const TABLE_SEEDS = 'seeds';
 const TABLE_MONGO_SEEDS = 'mongoSeeds';
@@ -38,10 +26,14 @@ export class SeedExecutor {
 
   protected tblToSeed: string;
 
+  protected db: any;
+
   constructor(
     protected connectionOptions: any,
     protected queryRunner?: QueryRunner
   ) {
+    this.db = DatabaseStorage.db;
+
     this.tblToSeed = !(getConnection(connectionOptions.name).driver as any)
       .mongodb
       ? TABLE_SEEDS
@@ -88,7 +80,7 @@ export class SeedExecutor {
       getConnection(this.connectionOptions.name).createQueryRunner();
 
     // get all seeds that are executed and saved in the database
-    const executedSeeds = db.get(this.tblToSeed).value();
+    const executedSeeds = this.db.get(this.tblToSeed).value();
 
     // get all user's seeds in the source code
     const allSeeds = await this.getSeeds();
@@ -102,6 +94,10 @@ export class SeedExecutor {
         hasUnappliedSeeds = true;
         console.log(` [ ] ${seed.name}`);
       }
+    }
+
+    if (allSeeds.length === 0) {
+      console.log(`There are no seeds available.`);
     }
 
     // if query runner was created by us then release it
@@ -128,7 +124,7 @@ export class SeedExecutor {
     const successSeeds: Seed[] = [];
 
     // get all seeds that are executed and saved in the database
-    const executedSeeds = db.get(this.tblToSeed).value();
+    const executedSeeds = this.db.get(this.tblToSeed).value();
 
     // find all seeds that needs to be executed
     const pendingSeeds = allSeeds.filter(seed => {
@@ -166,7 +162,7 @@ export class SeedExecutor {
       transactionStartedByUs = true;
     }
 
-    const currSequence: number = db.get(TABLE_SEQUENCES).value()[
+    const currSequence: number = this.db.get(TABLE_SEQUENCES).value()[
       this.tblToSeed
     ];
     const nextSequence = currSequence + 1;
@@ -178,11 +174,11 @@ export class SeedExecutor {
           .instance!.up(queryRunner)
           .then(() => {
             // now when seed is executed we need to insert record about it into the database
-            return db
+            return this.db
               .get(this.tblToSeed)
               .push({
                 id:
-                  db
+                  this.db
                     .get(this.tblToSeed)
                     .size()
                     .value() + 1,
@@ -202,13 +198,13 @@ export class SeedExecutor {
       // commit transaction if we started it
       if (transactionStartedByUs) {
         await queryRunner.commitTransaction();
-        db.update(
-          `${TABLE_SEQUENCES}.${this.tblToSeed}`,
-          (n: number) => n + 1
-        ).write();
+        this.db
+          .update(`${TABLE_SEQUENCES}.${this.tblToSeed}`, (n: number) => n + 1)
+          .write();
       }
     } catch (err) {
-      db.get(this.tblToSeed)
+      this.db
+        .get(this.tblToSeed)
         .remove({ sequence: currSequence })
         .write();
 
@@ -237,7 +233,7 @@ export class SeedExecutor {
       getConnection(this.connectionOptions.name).createQueryRunner();
 
     // get all seeds that are executed and saved in the database
-    const executedSeeds = db.get(this.tblToSeed).value();
+    const executedSeeds = this.db.get(this.tblToSeed).value();
 
     // get the time when last seed was executed
     let lastTimeExecutedSeed = this.getLatestExecutedSeed(executedSeeds);
@@ -370,11 +366,12 @@ export class SeedExecutor {
    * Delete previously executed seed's data from the seeds table.
    */
   protected async deleteExecutedSeed(seed: Seed): Promise<void> {
-    db.get(this.tblToSeed)
+    this.db
+      .get(this.tblToSeed)
       .remove({ name: seed.name, timestamp: seed.timestamp })
       .write();
 
-    const lastSequence = db
+    const lastSequence = this.db
       .get(this.tblToSeed)
       .orderBy('sequence', 'desc')
       .take(1)
@@ -383,7 +380,8 @@ export class SeedExecutor {
 
     const newSequence = lastSequence[0] ? lastSequence[0] : 0;
 
-    db.get(`${TABLE_SEQUENCES}`)
+    this.db
+      .get(`${TABLE_SEQUENCES}`)
       .assign({ [this.tblToSeed]: newSequence })
       .write();
   }
