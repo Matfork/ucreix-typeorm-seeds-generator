@@ -205,7 +205,7 @@ export class SeedExecutor {
     } catch (err) {
       this.db
         .get(this.tblToSeed)
-        .remove({ sequence: currSequence })
+        .remove({ sequence: nextSequence })
         .write();
 
       // rollback transaction if we started it
