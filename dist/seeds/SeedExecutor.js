@@ -210,7 +210,7 @@ var SeedExecutor = (function () {
                         err_1 = _a.sent();
                         this.db
                             .get(this.tblToSeed)
-                            .remove({ sequence: currSequence })
+                            .remove({ sequence: nextSequence })
                             .write();
                         if (!transactionStartedByUs) return [3, 15];
                         _a.label = 12;
