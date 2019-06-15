@@ -10,10 +10,11 @@ export class DatabaseStorage {
   public static async initialize() {
     const opts: any = await getConnectionOptions();
     const separator = '/';
+    const dbPath = process.env.SEED_DB_PATH
+      ? process.env.SEED_DB_PATH
+      : `${baseDir}${separator}${opts.cli.seeds.db}`;
 
-    const adapter = new FileSync(
-      `${baseDir}${separator}${opts.cli.seeds.db}`
-    );
+    const adapter = new FileSync(dbPath);
 
     DatabaseStorage.db = low(adapter);
 

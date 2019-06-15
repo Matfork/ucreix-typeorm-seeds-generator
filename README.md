@@ -55,6 +55,11 @@ Example:
 
 When running or reverting commands a files named `seedsDb.json` will be generated in `cli.seedsDir`, this file will beceome your seeds database. So, always keep it and if moved remember to also change `cli.seedsDir` path.
 
+If you need to set up allocate an specific seeds.db using an absolute path (e.g. outse path app), you can use SEED_DB_PATH env variable. If provided, it will be used as seed path instead of ormconfig seeds.dir path.
+```sh
+SEED_DB_PATH=/home/user/seed/seedDb.json
+```
+
 Commands
 ----
 ##### Create Seed
