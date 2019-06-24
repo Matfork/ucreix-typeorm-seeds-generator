@@ -62,6 +62,11 @@ var SeedRunCommand = (function () {
             alias: 'f',
             default: 'ormconfig',
             describe: 'Name of the file with connection configuration.'
+        })
+            .option('length', {
+            alias: 'l',
+            default: '0',
+            describe: 'Number of pending seedings to be executed.'
         });
     };
     SeedRunCommand.prototype.handler = function (args) {
@@ -92,7 +97,8 @@ var SeedRunCommand = (function () {
                     case 3:
                         connection = _a.sent();
                         options = {
-                            transaction: args['t'] === 'false' ? false : true
+                            transaction: args['t'] === 'false' ? false : true,
+                            length: args['l'] === '0' ? 0 : parseInt(args['l'])
                         };
                         return [4, DatabaseStorage_1.DatabaseStorage.initialize()];
                     case 4:

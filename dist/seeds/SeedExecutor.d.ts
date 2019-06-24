@@ -13,9 +13,10 @@ export declare class SeedExecutor {
     }): Promise<void>;
     runSeeds(options?: {
         transaction?: boolean;
+        length?: number;
     }): Promise<Seed[]>;
     showSeeds(): Promise<boolean>;
-    executePendingSeeds(): Promise<Seed[]>;
+    executePendingSeeds(length: number | undefined): Promise<Seed[]>;
     undoLastSeed(): Promise<void>;
     protected getSeeds(): Promise<Seed[]>;
     protected buildSeeds(seeds: (Function | string)[]): SeedInterface[];

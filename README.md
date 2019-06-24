@@ -88,6 +88,7 @@ CLI Options
 | * | --connection or -c | default | Name of the connection on which run a query.
 | * | --config or -f | default | Name of the file with connection configuration.
 | seed:create | --name or -n | [Required] | Name of seed to be created.
+| seed:run | --length or -l | 0 | Length of next pending seeds to be executed .
 
 License
 ----

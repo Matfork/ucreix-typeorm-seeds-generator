@@ -30,6 +30,11 @@ export class SeedRunCommand implements yargs.CommandModule {
         alias: 'f',
         default: 'ormconfig',
         describe: 'Name of the file with connection configuration.'
+      })
+      .option('length', {
+        alias: 'l',
+        default: '0',
+        describe: 'Number of pending seedings to be executed.'
       });
   }
 
@@ -56,7 +61,8 @@ export class SeedRunCommand implements yargs.CommandModule {
       connection = await createConnection(connectionOptions);
 
       const options = {
-        transaction: args['t'] === 'false' ? false : true
+        transaction: args['t'] === 'false' ? false : true,
+        length: args['l'] === '0' ? 0 : parseInt((args as any)['l'])
       };
 
       await DatabaseStorage.initialize();

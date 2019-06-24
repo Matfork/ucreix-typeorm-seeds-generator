@@ -73,14 +73,17 @@ var SeedExecutor = (function () {
     };
     SeedExecutor.prototype.runSeeds = function (options) {
         return __awaiter(this, void 0, void 0, function () {
-            var successSeeds;
+            var length, successSeeds;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (options && options.transaction === false) {
                             this.transaction = false;
                         }
-                        return [4, this.executePendingSeeds()];
+                        if (options && options.length) {
+                            length = options.length;
+                        }
+                        return [4, this.executePendingSeeds(length)];
                     case 1:
                         successSeeds = _a.sent();
                         return [2, successSeeds];
@@ -128,7 +131,7 @@ var SeedExecutor = (function () {
             });
         });
     };
-    SeedExecutor.prototype.executePendingSeeds = function () {
+    SeedExecutor.prototype.executePendingSeeds = function (length) {
         return __awaiter(this, void 0, void 0, function () {
             var queryRunner, allSeeds, successSeeds, executedSeeds, pendingSeeds, transactionStartedByUs, currSequence, nextSequence, err_1, rollbackError_1;
             var _this = this;
@@ -148,6 +151,9 @@ var SeedExecutor = (function () {
                                 return false;
                             return true;
                         });
+                        if (length && length !== 0) {
+                            pendingSeeds = pendingSeeds.slice(0, length);
+                        }
                         if (!!pendingSeeds.length) return [3, 4];
                         console.log("No seeds are pending");
                         if (!!this.queryRunner) return [3, 3];

@@ -57,11 +57,19 @@ export class SeedExecutor {
    * Runs all pending seeds.
    * Can be used only after connection to the database is established.
    */
-  public async runSeeds(options?: { transaction?: boolean }): Promise<Seed[]> {
+  public async runSeeds(options?: {
+    transaction?: boolean;
+    length?: number;
+  }): Promise<Seed[]> {
     if (options && options.transaction === false) {
       this.transaction = false;
     }
-    const successSeeds = await this.executePendingSeeds();
+
+    let length;
+    if (options && options.length) {
+      length = options.length;
+    }
+    const successSeeds = await this.executePendingSeeds(length);
     return successSeeds;
   }
 
@@ -112,7 +120,7 @@ export class SeedExecutor {
    * Executes all pending Seeds. Pending Seeds are Seeds that are not yet executed,
    * thus not saved in the database.
    */
-  async executePendingSeeds(): Promise<Seed[]> {
+  async executePendingSeeds(length: number | undefined): Promise<Seed[]> {
     const queryRunner =
       this.queryRunner ||
       getConnection(this.connectionOptions.name).createQueryRunner();
@@ -127,15 +135,18 @@ export class SeedExecutor {
     const executedSeeds = this.db.get(this.tblToSeed).value();
 
     // find all seeds that needs to be executed
-    const pendingSeeds = allSeeds.filter(seed => {
+    let pendingSeeds = allSeeds.filter(seed => {
       // check if we already have executed seed
       const executedSeed = executedSeeds.find(
         (es: any) => es.name === seed.name
       );
       if (executedSeed) return false;
-
       return true;
     });
+
+    if (length && length !== 0) {
+      pendingSeeds = pendingSeeds.slice(0, length);
+    }
 
     // if no seeds are pending then nothing to do here
     if (!pendingSeeds.length) {

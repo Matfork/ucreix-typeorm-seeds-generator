@@ -8,6 +8,8 @@ export declare class SeedRunCommand implements yargs.CommandModule {
         transaction: string;
     } & {
         config: string;
+    } & {
+        length: string;
     }>;
     handler(args: yargs.Arguments): Promise<void>;
 }
